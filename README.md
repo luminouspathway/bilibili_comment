@@ -51,22 +51,7 @@ w3 参数：点击坐标 ca + 时间戳 + W2 校验 + RSA 签名
 - `click_identify.py`：YOLO + Siamese ONNX 推理，CPU 运行无需 GPU
 - `bilibili_login.py`：w1/w2/w3 参数构造、轨迹生成、完整登录流程
 
-**参考标准：** 极验三代 `click.3.1.2.js` + `fullpage.9.2.0.js`（经 AST 分层反混淆）
-
-> 混淆 JS 通过 Babel AST 分步还原，每一步侧重解除一种混淆模式：
->
-> **click.3.1.2.js 处理链：**
-> - `visitor1` — 字面量还原：清除 `StringLiteral` / `NumericLiteral` 的 `extra.raw` 属性，恢复 `\xAB` 转义
-> - `visitor2` — 字符串表解码：匹配 `YEgKN.$_CE(索引)` 模式，运行时解密替换为真实字符串
-> - `visitor3` — 控制流平坦化：识别 `var $_x = 常量; for(; $_x !== 终值;) { switch($_x) { case... } }`，提取 case body 展开为线性代码
->
-> **fullpage.9.2.0.js 处理链：**
-> - `visitor1` — 字面量还原（同上）
-> - `visitor2` — 数组构建还原：匹配 `[elem].concat(varName)` 模式，合并为完整数组表达式
-> - `visitor3` — 数组索引替换（idx=1）：`arr[1]` 替换为数组第二个元素（函数引用 `Vwtrj.$_CV`）
-> - `visitor4` — 数组索引替换（idx=0）：`arr[0]` 替换为固定值后删除数组声明
-> - `visitor5` — 字符串表解码：遍历 `fn(索引)` 调用，运行时解密替换为明文
-> - `visitor6` — 死代码清理：删除 `shift()` 调用和无用 `var xxx = Vwtrj.$_CV` 声明
+**参考标准：** 极验三代 `click.3.1.2.js` + `fullpage.9.2.0.js`（经 Babel AST 分层反混淆：字符串表还原、控制流平坦化、数组索引替换、死代码清理）
 
 ### 2. B站 WBI 签名还原
 
