@@ -51,7 +51,12 @@ w3 参数：点击坐标 ca + 时间戳 + W2 校验 + RSA 签名
 - `click_identify.py`：YOLO + Siamese ONNX 推理，CPU 运行无需 GPU
 - `bilibili_login.py`：w1/w2/w3 参数构造、轨迹生成、完整登录流程
 
-**参考标准：** 极验三代 `click.3.1.2.js` + `fullpage.9.2.0.js`
+**参考标准：** 极验三代 `click.3.1.2.js` + `fullpage.9.2.0.js`（经 AST 反混淆处理）
+
+> 混淆 JS 通过 Babel AST 进行分层反混淆后分析：
+> - `visitor1` — 字符串/数值字面量还原：清除 `extra.raw` 属性，将 `\xAB` 转义还原为可读字符
+> - `visitor2` — 字符串表解码：遍历 `CallExpression`，将 `YEgKN.$_CE(索引)` 替换为真实字符串值
+> - `visitor3` — 控制流平坦化恢复：匹配 `var $_xxx = 常量; for(; $_xxx !== 终值; ) { switch($_xxx) { ... } }` 模式，提取 case body 替换为线性代码
 
 ### 2. B站 WBI 签名还原
 
