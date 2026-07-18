@@ -12,7 +12,7 @@
 
 | 层次 | 技术 | 说明 |
 |---|---|---|
-| 逆向分析 | Charles/Fiddler | HTTP 抓包、请求对比 |
+| 逆向分析 | Reqable | HTTP 抓包、请求对比 |
 | 算法还原 | Python `pycryptodome` | AES-CBC + 自定义Base64 + RSA-1024 |
 | 验证码识别 | YOLOv8s + Siamese Net (ONNX) | 全图目标检测 + 贪心匹配 |
 | 轨迹模拟 | 贝塞尔曲线 + RLE 编码 | 极验三代 `$_BHIh` / `$_HDl` 轨迹压缩算法 |
@@ -60,7 +60,7 @@ B站 2024 年启用的新版 WBI 签名机制，从 `img_key` + `sub_key` 派生
 
 ### 3. 翻页游标修复
 
-通过 Charles HAR 抓包对比发现：B站评论接口 `pagination_reply` 返回 `next_offset`，但翻页请求参数名必须为 `offset`。字段名不匹配导致第 2 页起全部返回缓存数据（20 条重复但 `code=0`），属典型的**服务端静默反爬**。
+通过 Reqable HAR 抓包对比发现：B站评论接口 `pagination_reply` 返回 `next_offset`，但翻页请求参数名必须为 `offset`。字段名不匹配导致第 2 页起全部返回缓存数据（20 条重复但 `code=0`），属典型的**服务端静默反爬**。
 
 ## 项目结构
 
@@ -105,7 +105,7 @@ python main.py
 | 轨迹编码压缩 | 逆向 `$_BHIh` 函数，实现 RLE + 类型编码 + 有符号整数压缩 |
 | 点选坐标识别 | YOLO 全图检测 + 分区 NMS + Siamese 贪心匹配，CPU 推理 < 1s |
 | B站二级风控（短信验证） | 无头浏览器提取设备指纹，减少风控触发 |
-| 翻页数据重复 | Charles 抓包对比浏览器/脚本请求差异，定位 `offset` 字段名问题 |
+| 翻页数据重复 | Reqable 抓包对比浏览器/脚本请求差异，定位 `offset` 字段名问题 |
 | 403 权限拦截 | 每页刷新 `bili_ticket` + WBI 密钥对，保持设备指纹一致 |
 
 ## 项目亮点
@@ -113,7 +113,7 @@ python main.py
 - **极验三代全参数协议还原**：逆向 `click.3.1.2.js` / `fullpage.9.2.0.js`，还原 w1/w2/w3 全链路加密（AES-CBC + 自定义 Base64 `$_HCB` + RSA-1024 + MD5），纯 Python 实现，零第三方打码依赖
 - **YOLO + Siamese 双模型点选识别**：YOLOv8s 全图检测 + 分区 NMS + Siamese 贪心匹配，CPU 推理 < 1s，无需 GPU
 - **轨迹编码算法逆向**：还原极验三代压缩算法（RLE + 类型编码 + 有符号整数编码），将数百个鼠标事件压缩为几十字符，通过行为风控检测
-- **B站 WBI 签名 + 翻页游标修复**：全方位还原新版 WBI 签名机制，通过 Charles 抓包对比修复 `pagination_reply` 字段名不匹配导致的服务端静默反爬
+- **B站 WBI 签名 + 翻页游标修复**：全方位还原新版 WBI 签名机制，通过 Reqable 抓包对比修复 `pagination_reply` 字段名不匹配导致的服务端静默反爬
 - **桌面应用工程化**：Tkinter 多线程桌面应用，集成无头浏览器自动化、登录重试、MySQL 批量写入、Redis 队列管理
 
 ## License
