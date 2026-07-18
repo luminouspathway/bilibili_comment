@@ -5,3 +5,4 @@ dx_img*.png
 model/*.pth
 model/*.pt
 .env
+
