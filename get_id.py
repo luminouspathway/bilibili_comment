@@ -110,3 +110,4 @@ def save_to_redis(video_list):
 if __name__ == '__main__':
     video_list = get_video_ids(keyword='罗翔说刑法合集', pages=3)
     save_to_redis(video_list)
+

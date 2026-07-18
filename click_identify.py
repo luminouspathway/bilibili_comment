@@ -138,3 +138,4 @@ if __name__ == "__main__":
     print(f"Coords: {coords}")
     for i, pt in enumerate(coords):
         print(f"  {i + 1}: ({pt[0]}, {pt[1]})")
+
