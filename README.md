@@ -40,12 +40,12 @@ w3 参数：点击坐标 ca + 时间戳 + W2 校验 + RSA 签名
 
 **识别流程：**
 
-```mermaid
-graph LR
-    A[验证码图片下载] --> B[YOLOv8s 全图检测]
-    B --> C[分区 NMS<br/>题目区/选项区]
-    C --> D[Siamese 孪生网络<br/>相似度匹配]
-    D --> E[贪心匹配<br/>输出点击坐标]
+```
+验证码图片下载
+  → YOLOv8s 全图检测
+  → 分区 NMS（题目区 / 选项区）
+  → Siamese 孪生网络相似度匹配
+  → 贪心匹配输出点击坐标
 ```
 
 - `click_identify.py`：YOLO + Siamese ONNX 推理，CPU 运行无需 GPU
