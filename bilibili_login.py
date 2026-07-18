@@ -1,3 +1,4 @@
+﻿
 # https://passport.bilibili.com/login?gourl=https%3A%2F%2Faccount.bilibili.com%2Faccount%2Fhome
 
 from Crypto.Cipher import PKCS1_v1_5, AES as CryptoAES
