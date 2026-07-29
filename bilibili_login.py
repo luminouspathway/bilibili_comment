@@ -681,7 +681,7 @@ def crop_img():
     # logger.info(f"图片调整后已保存为: {output_path}")
 
 
-# ── 12. 点击轨迹生成 (main.py 原有) ─────────────────────
+# ── 12. 点击轨迹生成 (vaptcha_solver2.py 原有) ─────────────────────
 
 def _generate_segment(sx, sy, ex, ey, total_n):
     dx = ex - sx
