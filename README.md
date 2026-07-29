@@ -38,7 +38,7 @@
 
 ### 极验三代验证码 — 全参数协议还原
 
-不从浏览器 JS 环境偷 cookie，而是**完全在 Python 层还原加密流程**：
+**Python 层实现纯算还原加密流程**：
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -61,7 +61,7 @@
 └─────────────────────────────────────────────────────┘
 ```
 
-**参考文件**: `bilibili_login.py`（800+ 行）
+**参考文件**: `bilibili_login.py`
 
 ### 验证码图像识别 — YOLO + Siamese 双模型
 
@@ -135,7 +135,7 @@ POST 极验验证接口
   │         └─ 成功 → 提取 SESSDATA / bili_jct
   │
   ├─ 二次风控 → 短信验证
-  │              └─ DrissionPage 打开浏览器 → 用户手动验证
+  │              └─ DrissionPage 打开浏览器 → 用户手动验证或劫持短信验证
   │
   └─ 失败 → 刷新验证码重试 (最多3次)
 ```
@@ -145,7 +145,7 @@ POST 极验验证接口
 ```
 bilibili-comment-collector/
 ├── main.py              # Tkinter 桌面入口 (871行)
-├── bilibili_login.py    # 极验三代全参数还原 + 登录流程 (800+行)
+├── bilibili_login.py    # 极验三代全参数还原 + 登录流程
 ├── click_identify.py    # YOLO + Siamese 验证码识别 (141行)
 ├── comment.py           # 评论采集: WBI签名 + 分页 + MySQL
 ├── get_id.py            # 无头浏览器搜索视频 ID
