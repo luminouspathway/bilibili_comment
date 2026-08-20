@@ -151,7 +151,7 @@ def _import_thread(videos: dict, result_q):
     try:
         items = list(videos.items())
         total = len(items)
-        loguru_logger.info(f'开始并发加载 {total} 个视频详情...')
+        loguru_logger.info(f'开始并发加载 {total} 个视频详情')
         video_list = []
         done = 0
         with ThreadPoolExecutor(max_workers=8) as pool:
