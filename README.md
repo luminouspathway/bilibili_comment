@@ -17,7 +17,7 @@
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│                        Tkinter 桌面应用                        │
+│                       PyQt5 桌面应用                           │
 │            搜索 │ 导入 │ 登录 │ 采集 │ 停止                    │
 └───────────────┬──────────────────────────────────────────────┘
                 │
@@ -96,7 +96,7 @@ ts + hexSign (HMAC-SHA256) → bili_ticket
 
 ### 翻页游标修复
 
-通过 Reqable HAR 抓包对比浏览器 vs 脚本请求，发现 B站评论接口 `pagination_reply` 返回的字段名为 `next_offset`，但翻页请求参数名必须为 `offset`。字段名不匹配导致第 2 页起全部返回缓存数据（20 条重复、`code=0`，无任何报错）——**典型的服务端静默反爬**。
+通过 Reqable 抓包对比浏览器 vs 脚本请求，发现 B站评论接口 `pagination_reply` 返回的字段名为 `next_offset`，但翻页请求参数名必须为 `offset`。字段名不匹配导致第 2 页起全部返回缓存数据（20 条重复、`code=0`，无任何报错）——**典型的服务端静默反爬**。
 
 ## 技术栈
 
@@ -109,7 +109,7 @@ ts + hexSign (HMAC-SHA256) → bili_ticket
 | 浏览器自动化 | DrissionPage (Chromium) | 无头搜索 + 设备指纹提取 |
 | WBI 签名 | HMAC-SHA256 + MD5 | B站新版接口签名 |
 | 数据存储 | MySQL + Redis | 评论持久化 + 视频 ID 队列 |
-| GUI | Tkinter + 多线程 | 蓝白风格桌面应用 |
+| GUI | PyQt5 + 多线程 | 现代化桌面界面（`pyqt_gui.py`） |
 
 ## 登录流程
 
@@ -144,7 +144,7 @@ POST 极验验证接口
 
 ```
 bilibili-comment-collector/
-├── main.py              # Tkinter 桌面入口 (871行)
+├── pyqt_gui.py          # PyQt5 桌面入口 (现代化界面)
 ├── bilibili_login.py    # 极验三代全参数还原 + 登录流程
 ├── click_identify.py    # YOLO + Siamese 验证码识别 (141行)
 ├── comment.py           # 评论采集: WBI签名 + 分页 + MySQL
@@ -153,6 +153,7 @@ bilibili-comment-collector/
 │   ├── yolov8s.onnx     # YOLOv8s 目标检测模型
 │   └── siamese.onnx     # Siamese 孪生网络相似度模型
 ├── requirements.txt     # Python 依赖
+├── screenshot.png       # 结果展示截图
 └── README.md
 ```
 
@@ -161,14 +162,25 @@ bilibili-comment-collector/
 ```bash
 # 安装依赖
 pip install -r requirements.txt
+pip install "PyQt5>=5.15"    # GUI 依赖
 
 # 确保 Redis 和 MySQL 已启动
 
 # 启动应用
-python main.py
+python pyqt_gui.py
 ```
 
-**操作流程**: 搜索关键词 → 导入视频 → 输入账号密码 → 登录（自动过极验） → 采集评论
+**操作流程**: 搜索关键词 → 导入视频 → 输入账号密码 → 登录（自动过极验三文字点选） → 采集评论
+
+## 结果展示
+
+![结果展示](imgs/screenshot.png)
+
+![redis存储id](imgs/redis_id.png)
+
+![mysql存储评论数据](imgs/mysql_comment.png)
+
+
 
 ## 项目亮点
 
@@ -176,7 +188,7 @@ python main.py
 - **YOLO + Siamese 端到端点选识别**: 全图检测 → 分区 NMS → 孪生网络贪心匹配，CPU 推理 < 1s
 - **轨迹压缩算法还原**: 逆向 `$_BHIh` RLE + 类型编码 + 有符号整数压缩，数百鼠标事件压缩为几十字符
 - **B站新版 WBI 签名 + 翻页游标修复**: 完整还原签名机制，抓包对比修复静默反爬
-- **工程化交付**: Tkinter 多线程桌面应用，支持批量采集、进度追踪、异常重试
+- **工程化交付**: PyQt5 多线程桌面应用，支持批量采集、进度追踪、异常重试
 
 ## License
 

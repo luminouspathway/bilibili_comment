@@ -29,7 +29,7 @@ TRACE_ALPHABET = "()*,-./0123456789:?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmno
 
 EVENT_TYPES = {"move": 0, "down": 1, "up": 2, "scroll": 3, "focus": 4, "blur": 5, "unload": 6, "unknown": 7}
 
-RSA_N = "00C1E3934D1614465B33053E7F48EE4EC87B14B95EF88947713D25EECBFF7E74C7977D02DC1D9451F79DD5D1C10C29ACB6A9B4D6FB7D0A0279B6719E1772565F09AF627715919221AEF91899CAE08C0D686D748B20A3603BE2318CA6BC2B59706592A9219D0BF05C9F65023A21D2330807252AE0066D59CEEFA5F2748EA80BAB81"
+RSA_N = ""
 RSA_E = "10001"
 
 CONFIG_DATA = {
@@ -53,13 +53,13 @@ CONFIG_DATA = {
     "aspect_radio": {"slide": 103, "click": 128, "voice": 128, "beeline": 50},
     "cc": 20,
     "ww": True,
-    "i": "-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1"
+    "i": "-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1"
 }
 
 W2_C = [12, 58, 98, 36, 43, 95, 62, 15, 12]
 W2_T = "M(*((1((M(("
-W2_N = "-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1magic data-1"
-W2_CCFV = "-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1"
+W2_N = "data-1magic data-1"
+W2_CCFV = "-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1!!-1"
 
 cookies = {}
 
@@ -121,7 +121,7 @@ headers = {
     'cache-control': 'no-cache',
     'pragma': 'no-cache',
     'priority': 'u=1, i',
-    'referer': 'https://passport.bilibili.com/login?gourl=https%3A%2F%2Faccount.bilibili.com%2Faccount%2Fhome',
+    'referer': 'https://passport.bilibili.com/login',
     'sec-ch-ua': '"Google Chrome";v="143", "Chromium";v="143", "Not A(Brand";v="24"',
     'sec-ch-ua-mobile': '?0',
     'sec-ch-ua-platform': '"Windows"',
@@ -481,8 +481,8 @@ def get_w2(s, pass_time, gt, challenge, common_key, fingerprint_track, tmObject)
         "v": "9.2.0-guwyxh",
         "te": False,
         "$_BBn": True,
-        "ven": "Google Inc. (Intel)",
-        "ren": "ANGLE (Intel, Intel(R) UHD Graphics (0x00004626) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "ven": "",
+        "ren": "",
         "fp": fingerprint_track[0],
         "lp": fingerprint_track[-1],
         "em": {"ph": 0, "cp": 0, "ek": "11", "wd": 1, "nt": 0, "si": 0, "sc": 0},
@@ -511,7 +511,7 @@ def get_w2(s, pass_time, gt, challenge, common_key, fingerprint_track, tmObject)
     for key, value in paramList:
         _CECm += '"{}":{},'.format(key, json.dumps(value, separators=(',', ':')))
 
-    captchaToken = 1784315673
+    captchaToken = ''
     finalR = "{" + _CECm + '"captcha_token":"' + str(captchaToken) + '","tsfq":"xovrayel"}'
 
     w2 = _HEJ(aes_encrypt(finalR, common_key))
@@ -570,7 +570,7 @@ def register_click(session):
     url = 'https://passport.bilibili.com/x/passport-login/captcha'
     params = {
         'source': 'main-fe',
-        'web_location': '333.1228',
+        'web_location': '',
         'x-bili-locale-json': '{"c_locale":{"language":"zh","region":"CN"},"always_translate":true}',
     }
     res = session.get(url, headers=headers, cookies=cookies, params=params, verify=False, timeout=15).json()
@@ -899,7 +899,7 @@ def encrypt_password(public_key_pem, hash_val, password):
 def login(session, token, validate, challenge, key, hash_val, username, pwd):
     params = {
         'x-bili-locale-json': '{"c_locale":{"language":"zh","region":"CN"},"always_translate":true}',
-        'b_ret': 'BEYAAAAASUVORK5CYII=D//3AojzIAAAAGSURBVAMAhF3/8J6k+I8AAAAASUVORK5CYII=',
+        'b_ret': '',
     }
     data = {
         'source': 'main_web',
